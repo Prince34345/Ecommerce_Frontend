@@ -24,7 +24,7 @@ export default function Categories() {
     <View>
       <View style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
         <Text style={{fontSize: 22 , margin: 5 ,fontWeight: 900}}>
-              Shop for Categories
+              Shop for Categoriess
         </Text> 
         <View style={{display: "flex", justifyContent: "center", alignItems: "center"}}><TouchableOpacity onPress={handlePLP}><Text style={{fontSize: 16, marginRight: 10, color: "#b0daa4", fontWeight: 900}}> View All </Text></TouchableOpacity></View>
       </View>
