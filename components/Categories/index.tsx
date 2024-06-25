@@ -38,8 +38,8 @@ export default function Categories() {
           }
      </View>:
         <ScrollView horizontal nestedScrollEnabled showsHorizontalScrollIndicator={false}  >
-               {arr.map((data) => {
-                   return <View key={data?.id} style={{margin: 10, backgroundColor: "grey", padding: 20, borderRadius: 5}}>
+               {arr.map((data, id) => {
+                   return <View key={id} style={{margin: 10, backgroundColor: "grey", padding: 20, borderRadius: 5}}>
                      <TouchableOpacity>
                      <View>
                      <Text style={{color: "#b0eaa4", fontWeight: "bold"}}>

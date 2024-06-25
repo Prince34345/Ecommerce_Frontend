@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import categoryReducer from './slices/categorySlice';
 import favProductReducer from "./slices/favProductSlice"
+import ProductReducer from "./slices/productsSlice"
+
 const store = configureStore({
   reducer: {
     category: categoryReducer,
-    favProduct: favProductReducer
+    favProduct: favProductReducer,
+    allProduct:ProductReducer
     // Add more reducers here
   },
 });

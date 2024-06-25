@@ -8,7 +8,6 @@ import { AppDispatch, RootState } from '@/store/store';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function FavProduct() {
-
   const dispatch = useDispatch<AppDispatch>();
   const { data, loading, error } = useSelector((state: RootState) => state.favProduct);
   const navigator = useNavigation()
@@ -37,7 +36,13 @@ export default function FavProduct() {
         </>
       }
     </View> :
-    <FlatList nestedScrollEnabled={true} style={{margin: 10}} numColumns={2} data={arr} renderItem={(item) => <ProductCard key={item.index} product={item.item}/>}  /> 
+    <FlatList 
+       nestedScrollEnabled={true} 
+       style={{margin: 10}} 
+       numColumns={2} 
+       data={arr} 
+       renderItem={(item) => <ProductCard key={item.item._id} product={item.item}/>}  
+       /> 
 }
 </View>
   )
