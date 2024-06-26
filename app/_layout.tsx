@@ -19,6 +19,9 @@ export default function RootLayout() {
         <Stack.Screen name="plp/index" options={{
           title: "PLP"
         }}/>
+         <Stack.Screen name="pdp/index" options={{
+          title: "PDP"
+        }}/>
       </Stack>
     </Provider>
   );

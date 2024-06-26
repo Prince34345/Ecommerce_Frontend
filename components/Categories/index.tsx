@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
 import React, { useEffect } from 'react'
 import { fetchCategory } from '@/store/slices/categorySlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,11 +31,9 @@ export default function Categories() {
        {
         loading ?
       <View>
-          {
-              <Text>
-                 loading...
-              </Text>
-          }
+          <ActivityIndicator>
+            
+          </ActivityIndicator>
      </View>:
         <ScrollView horizontal nestedScrollEnabled showsHorizontalScrollIndicator={false}  >
                {arr.map((data, id) => {

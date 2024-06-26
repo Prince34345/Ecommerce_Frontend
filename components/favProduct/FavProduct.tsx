@@ -1,8 +1,8 @@
-import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect } from 'react'
 import ProductCard from '../Card'
 import { fetchFavProduct } from '@/store/slices/favProductSlice';
-import { useNavigation } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -19,6 +19,7 @@ export default function FavProduct() {
   
 
   const arr = [...data]
+  const router = useRouter()
   return (
     <View>
     <View style={{display: "flex", justifyContent: "space-between", alignItems:"center", flexDirection: "row"}}>
@@ -29,11 +30,11 @@ export default function FavProduct() {
     loading ?
     <View>
       {
-        <>
-        <Text>
-             loading...
-        </Text>
-        </>
+        // <>
+       <ActivityIndicator>
+
+       </ActivityIndicator>
+        // </>
       }
     </View> :
     <FlatList 
@@ -41,7 +42,7 @@ export default function FavProduct() {
        style={{margin: 10}} 
        numColumns={2} 
        data={arr} 
-       renderItem={(item) => <ProductCard key={item.item._id} product={item.item}/>}  
+       renderItem={(item) => <ProductCard key={item.item._id} product={item.item} />}  
        /> 
 }
 </View>

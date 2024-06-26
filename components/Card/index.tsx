@@ -1,13 +1,17 @@
 
+import { router, useNavigation }from 'expo-router';
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-
-
-
+import { View, Text, Image, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 
 const ProductCard = ({ product }: {product?: any}) => {
-  // console.log()
+  const navigator = useNavigation()
+  const handlePDPredirect = () => {
+       navigator.setParams(product)
+       navigator.navigate("pdp/index" as never)
+       console.log("press card");
+  } 
   return (
+    <Pressable onPress={handlePDPredirect}>
     <View style={styles.card}>
       <Image source={{uri: product.ImageURL}} style={styles.image} />
       <View style={{marginTop: 4}}> 
@@ -23,6 +27,7 @@ const ProductCard = ({ product }: {product?: any}) => {
         <Text style={styles.buttonText}>Buy Now</Text>
       </TouchableOpacity>
     </View>
+    </Pressable>
   );
 };
 

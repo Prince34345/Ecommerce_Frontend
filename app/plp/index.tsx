@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '@/store/store';
 import { fetchAllProduct } from '@/store/slices/productsSlice';
 import ProductCard from '@/components/Card';
 import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 export default function Page() {
   const dispatch = useDispatch<AppDispatch>();
