@@ -3,8 +3,13 @@ import { Stack } from 'expo-router';
 import { Provider } from 'react-redux';
 import Header from '../components/Header/Header'
 import { StatusBar } from 'react-native';
+import { LogBox } from 'react-native';
+import { useEffect } from 'react';
 
 export default function RootLayout() {
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+}, [])
   return (
     <Provider store={store}>
       <StatusBar barStyle="light-content" />
