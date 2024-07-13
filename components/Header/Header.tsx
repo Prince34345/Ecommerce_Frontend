@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 import { TextInput, View, StyleSheet, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Search from "../Search/Search";
 
 export default function HeaderLayout() {
     const navigate = useNavigation()
@@ -15,7 +16,7 @@ export default function HeaderLayout() {
     return (
          <View style={[styles.view, { marginTop }]}>
                 <Ionicons name='menu' size={40} />
-                <TextInput placeholderTextColor={"black"} placeholder='Search' style={styles.searchBar}/>
+                <Search/>
                 <Ionicons name='cart' size={40}  onPress={handleCart} />
                 <View style={[styles.cartValue,{borderRadius: 5}]}>
                       <Text style={{textAlign: "center", fontWeight:"600" ,fontSize: 12 , color: "white"}}>
@@ -33,12 +34,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center",
         height: 50
-    },
-    searchBar : {
-        backgroundColor: "#eeebe5",
-        width: 240,
-        height: 40,
-        paddingLeft: 20
     },
     cartValue :{ 
         position: "absolute",

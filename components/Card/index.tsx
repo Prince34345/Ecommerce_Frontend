@@ -1,16 +1,17 @@
 
-import { router, useNavigation }from 'expo-router';
+import ProductDetailPage from '@/app/pdp';
+import { useNavigation }from 'expo-router';
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 
 const ProductCard = ({ product }: {product?: any}) => {
   const navigator = useNavigation()
+  
   const handlePDPredirect = () => {
-       navigator.setParams(product)
        navigator.navigate("pdp/index" as never)
-       console.log("press card");
+       navigator.setParams(product as any)
   } 
-  return (
+      return (
     <Pressable onPress={handlePDPredirect}>
     <View style={styles.card}>
       <Image source={{uri: product.ImageURL}} style={styles.image} />

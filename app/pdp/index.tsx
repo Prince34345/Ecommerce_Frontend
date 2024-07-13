@@ -1,44 +1,48 @@
-import { useGlobalSearchParams } from 'expo-router';
+// src/ProductDetailPage.js
+import { useNavigation } from 'expo-router';
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 
 const ProductDetailPage = () => {
-  const props = useGlobalSearchParams()
-  console.log(props)
+  const params = useNavigation().getState().routes[0].params as any
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, {borderWidth: .2, borderColor: "black", margin: 12.5}]}>
       <View style={styles.imageContainer}>
-        <Image 
-          source={{uri: 'https://example.com/ramni-chair.jpg'}} 
-          style={styles.productImage} 
-        />
+        <Image source={{ uri: params?.ImageURL }} style={styles.image} />
       </View>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.productName}>Ramni Chair</Text>
-        <Text style={styles.rating}>⭐ 4.5</Text>
-        <Text style={styles.price}>$1700</Text>
-        <View style={styles.tabContainer}>
-          <Text style={styles.tab}>Description</Text>
-          <Text style={styles.tab}>Reviews</Text>
-          <Text style={styles.tab}>Offers</Text>
-          <Text style={styles.tab}>Policy</Text>
+      <View style={styles.infoContainer}>
+        <Text style={styles.title}>{params.ProductTitle}</Text>
+        <View style={[styles.description, { display: "flex", flexDirection: "column" }]}>
+          <Text style={{ fontSize: 15 }}>{params.Category}</Text>
+          <Text style={{ fontSize: 12, color: "grey" }}>
+            {params.SubCategory}
+          </Text>
         </View>
-        <Text style={styles.description}>
-          Minimalist styling is not about creating a cold, hard, empty white box of a home. It is about using simple and natural forms, and taking away layers without losing the aesthetic appeal of the space. The focus is on shape, with furniture and accessories.
-        </Text>
-        <View style={styles.actionContainer}>
-          <TouchableOpacity style={styles.quantityButton}>
-            <Text style={styles.quantityText}>-</Text>
-          </TouchableOpacity>
-          <Text style={styles.quantityNumber}>1</Text>
-          <TouchableOpacity style={styles.quantityButton}>
-            <Text style={styles.quantityText}>+</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.addButtonText}>Add to Cart</Text>
-          </TouchableOpacity>
+        <View style={styles.colorOptions}>
+          <View style={[styles.colorCircle, { backgroundColor: params.Colour?.toLowerCase() }]}></View>
+        </View>
+        <View style={{ display: "flex", justifyContent: "space-around", alignItems: "center", flexDirection: "row" }}>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>{params.Gender}</Text>
+            {/* Additional content */}
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>{params.ProductType}</Text>
+            {/* Additional content */}
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>{params.Usage}</Text>
+            {/* Additional content */}
+          </View>
         </View>
       </View>
+      <TouchableOpacity style={[styles.addToCartButton, {display: "flex", justifyContent: "space-around", margin: 25 ,alignItems: "center", flexDirection: "row"}]}>
+        <Text style={styles.addToCartText}>ADD TO CART</Text>
+        <View style={styles.priceContainer}>
+          <Text style={[styles.price, { color: "#b0eaa4" }]}>${params.UnitPrice}</Text>
+        </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -46,83 +50,86 @@ const ProductDetailPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'white', // light sage background
   },
   imageContainer: {
     alignItems: 'center',
-    marginVertical: 20,
+    marginVertical: 5,
+    // borderColor: "black",
+    // borderBottomWidth: .5
   },
-  productImage: {
+  image: {
     width: 300,
-    height: 200,
-    resizeMode: 'contain',
+    height: 300,
   },
-  detailsContainer: {
+  infoContainer: {
     paddingHorizontal: 20,
   },
-  productName: {
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#b0eaa4', // grey color
+
   },
-  rating: {
-    fontSize: 18,
-    color: '#FFA500',
-    marginVertical: 5,
+  description: {
+    fontSize: 16,
+    color: '#4A4A4A',
+    marginVertical: 10,
+  },
+  colorOptions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  colorCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    marginRight: 10,
+  },
+  brown: {
+    backgroundColor: '#8B4513',
+  },
+  white: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#4A4A4A',
+  },
+  ProductType: {
+    fontSize: 16,
+    color: '#b0eaa4',
+    fontWeight: "900"
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: 20,
   },
   price: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FF0000',
-    marginVertical: 10,
+    color: '#4A4A4A',
   },
-  tabContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
-    marginVertical: 20,
-  },
-  tab: {
-    fontSize: 18,
-    color: '#888888',
-  },
-  description: {
-    fontSize: 16,
-    color: '#666666',
-    marginVertical: 10,
-  },
-  actionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 20,
-  },
-  quantityButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FF5A5F',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  quantityText: {
-    fontSize: 20,
-    color: '#FFFFFF',
-  },
-  quantityNumber: {
-    fontSize: 20,
-    marginHorizontal: 10,
-  },
-  addButton: {
-    backgroundColor: '#FF5A5F',
+  addToCartButton: {
+    backgroundColor: 'grey',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 20,
-    marginLeft: 20,
+    borderRadius: 5,
   },
-  addButtonText: {
-    fontSize: 18,
+  addToCartText: {
     color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  section: {
+    marginVertical: 10,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'grey',
+    backgroundColor: "#b0eaa4", padding: 15, borderRadius: 5,
   },
 });
 
