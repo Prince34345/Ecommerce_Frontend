@@ -1,48 +1,38 @@
-// src/ProductDetailPage.js
-import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 const ProductDetailPage = () => {
-  const params = useNavigation().getState().routes[0].params as any
+  const params = useLocalSearchParams();
+  const color = params?.Colour as string
   return (
-    <ScrollView style={[styles.container, {borderWidth: .2, borderColor: "black", margin: 12.5}]}>
+    <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: params?.ImageURL }} style={styles.image} />
+        <Image source={{ uri: params?.ImageURL as string }} style={styles.image} />
       </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.title}>{params.ProductTitle}</Text>
-        <View style={[styles.description, { display: "flex", flexDirection: "column" }]}>
-          <Text style={{ fontSize: 15 }}>{params.Category}</Text>
-          <Text style={{ fontSize: 12, color: "grey" }}>
-            {params.SubCategory}
-          </Text>
-        </View>
-        <View style={styles.colorOptions}>
-          <View style={[styles.colorCircle, { backgroundColor: params.Colour?.toLowerCase() }]}></View>
-        </View>
-        <View style={{ display: "flex", justifyContent: "space-around", alignItems: "center", flexDirection: "row" }}>
+      <Text style={styles.price}>{params?.Gender}</Text> 
+      <Text style={styles.title}>{params?.ProductTitle}</Text>        
 
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{params.Gender}</Text>
-            {/* Additional content */}
-          </View>
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{params.ProductType}</Text>
-            {/* Additional content */}
-          </View>
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{params.Usage}</Text>
-            {/* Additional content */}
-          </View>
-        </View>
+      <View style={styles.infoContainer}>
+        <View>
+        <Text style={styles.PriceButtonText}>{params?.Category}</Text>
+        <Text style={styles.subCategory}>{params?.SubCategory}</Text>
+        <Text style={styles.subCategory}>{params?.Usage}</Text>
+       </View>
+       <View>
+           <View style={{backgroundColor: color.toLowerCase(), height: 20, width: 20, borderColor: `${color.toLowerCase() == 'white' ? 'black': 'white'}`, borderWidth: 2}}></View>
+       </View>
       </View>
-      <TouchableOpacity style={[styles.addToCartButton, {display: "flex", justifyContent: "space-around", margin: 25 ,alignItems: "center", flexDirection: "row"}]}>
-        <Text style={styles.addToCartText}>ADD TO CART</Text>
-        <View style={styles.priceContainer}>
-          <Text style={[styles.price, { color: "#b0eaa4" }]}>${params.UnitPrice}</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.optionsContainer}>
+        <TouchableOpacity style={styles.AddButton}>
+          <Text style={styles.AddButtonText}>Add to Cart</Text>
+          <Ionicons name='cart' color={'white'} size={30}/>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.PriceButton}>
+          <Text style={styles.PriceButtonText}>${params?.UnitPrice}</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };
@@ -50,86 +40,90 @@ const ProductDetailPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white', // light sage background
+    backgroundColor: 'white',
+    padding: 20,
   },
   imageContainer: {
+    display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 5,
-    // borderColor: "black",
-    // borderBottomWidth: .5
+    marginBottom: 20,
+    borderColor: 'black',
+    height: 300,
+    elevation: 4
   },
   image: {
-    width: 300,
-    height: 300,
+    width: '100%',
+    height: 275,
+    resizeMode: 'contain',
   },
   infoContainer: {
-    paddingHorizontal: 20,
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#b0eaa4', // grey color
-
-  },
-  description: {
-    fontSize: 16,
-    color: '#4A4A4A',
-    marginVertical: 10,
-  },
-  colorOptions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 10,
-  },
-  colorCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    marginRight: 10,
-  },
-  brown: {
-    backgroundColor: '#8B4513',
-  },
-  white: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#4A4A4A',
-  },
-  ProductType: {
-    fontSize: 16,
-    color: '#b0eaa4',
-    fontWeight: "900"
-  },
-  priceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginVertical: 20,
+    color: '#333',
   },
   price: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#4A4A4A',
+    color: '#888',
+    marginVertical: 10,
   },
-  addToCartButton: {
-    backgroundColor: 'grey',
-    paddingVertical: 10,
+  subTitle: {
+    fontSize: 16,
+    color: '#666',
+  },
+  subCategory: {
+    fontSize: 14,
+    color: '#999',
+    marginTop: 5,
+  },
+  optionsContainer: {
+    flexDirection: 'row',
+    borderTopEndRadius: 10,
+    borderTopLeftRadius: 100,
+    width: 'auto',
+    justifyContent: 'space-around',
+    backgroundColor: '#f8f8f8',
+    paddingVertical: 100
+  },
+  AddButton: {
+    backgroundColor: '#000000',
+    paddingVertical: 15,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  addToCartText: {
+  AddButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
   },
-  section: {
-    marginVertical: 10,
+  PriceButton: {
+    backgroundColor: '#E0E0E0',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'grey',
-    backgroundColor: "#b0eaa4", padding: 15, borderRadius: 5,
+  PriceButtonText: {
+    color: '#333333',
+    fontSize: 16,
+    fontWeight: '900'
   },
 });
 

@@ -5,6 +5,7 @@ import ProductReducer from "./slices/productsSlice"
 import searchReducer from './slices/searchSlice';
 
 const store = configureStore({
+   
   reducer: {
     category: categoryReducer,
     favProduct: favProductReducer,

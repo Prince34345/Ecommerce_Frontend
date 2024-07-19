@@ -1,14 +1,15 @@
-import ProductDetailPage from '@/app/pdp';
-import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import { router } from 'expo-router';
 
 const ProductCard = ({ product }: { product?: any }) => {
-  const navigator = useNavigation();
-
   const handlePDPredirect = () => {
-    navigator.navigate("pdp/index" as never);
-    navigator.setParams(product as any);
+    router.push({
+      pathname: "/pdp" as any,
+      params: {
+        ...product
+      },
+    });
   };
 
   return (
@@ -31,10 +32,10 @@ const ProductCard = ({ product }: { product?: any }) => {
 const styles = StyleSheet.create({
   pressable: {
     flex: 1,
-    alignItems: "center"
+    alignItems: 'center',
   },
   card: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFFFFF', // White background
     borderRadius: 10,
     padding: 12,
     margin: 8,
@@ -56,31 +57,33 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     fontWeight: 'bold',
+    color: '#333333', // Dark gray color
     textAlign: 'center',
     marginBottom: 4,
   },
   description: {
     fontSize: 12,
-    color: '#666666',
+    color: '#666666', // Gray color
     textAlign: 'center',
     marginBottom: 4,
   },
   price: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#e91e63',
+    color: '#333333', // Dark gray color
     textAlign: 'center',
     marginBottom: 8,
   },
   button: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 20,
+    backgroundColor: '#000000', // Black button
     paddingVertical: 8,
     paddingHorizontal: 16,
     marginTop: 8,
+    borderRadius: 5,
+    elevation: 5,
   },
   buttonText: {
-    color: '#ffffff',
+    color: '#FFFFFF', // White text
     fontWeight: 'bold',
     textAlign: 'center',
   },

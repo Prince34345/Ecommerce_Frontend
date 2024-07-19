@@ -3,26 +3,28 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator
 import { fetchCategory } from '@/store/slices/categorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
-import { useNavigation } from 'expo-router';
+import { router } from 'expo-router';
 
 export default function Categories() {
   const dispatch = useDispatch<AppDispatch>();
-  const { data, loading, error } = useSelector((state: RootState) => state.category);
-  const navigator = useNavigation();
+  const { data, loading } = useSelector((state: RootState) => state.category);
 
   useEffect(() => {
     dispatch(fetchCategory());
   }, [dispatch]);
 
   function handlePLP() {
-    navigator.navigate('plp/index' as never);
+    console.log("router", router)
+    router.push({
+      pathname: "/plp" as any,
+    })
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Shop by Categories</Text>
-        <TouchableOpacity onPress={handlePLP}>
+        <TouchableOpacity  onPress={handlePLP}>
           <Text style={styles.viewAll}>View All</Text>
         </TouchableOpacity>
       </View>
@@ -31,7 +33,7 @@ export default function Categories() {
       ) : (
         <ScrollView horizontal nestedScrollEnabled showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollView}>
           {data.map((item, index) => (
-            <TouchableOpacity key={index} style={styles.categoryCard}>
+            <TouchableOpacity key={index} style={styles.categoryCard} onPress={handlePLP}>
               <Text style={styles.categoryText}>{item?.Category}</Text>
             </TouchableOpacity>
           ))}
@@ -44,7 +46,6 @@ export default function Categories() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     padding: 10,
   },
   header: {
@@ -54,14 +55,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: '900',
     color: '#333',
   },
   viewAll: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'green',
+    color: 'rgba(0,0,0,0.9)',
+    padding: 8
   },
   loader: {
     marginTop: 20,
@@ -70,19 +72,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   categoryCard: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    zIndex: 10,
     borderRadius: 8,
     padding: 20,
-    marginRight: 10,
+    marginRight: 30,
     borderBottomLeftRadius: 15,
     borderTopRightRadius: 0,
-    borderWidth: 1,
-    borderStyle: "dashed"
+
   },
   categoryText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'green',
     textAlign: 'center',
+    color: '#f8f8f8'
   },
 });

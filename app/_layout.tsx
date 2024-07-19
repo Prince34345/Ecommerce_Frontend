@@ -21,12 +21,13 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{
           title: "Home"
         }} />
+        <Stack.Screen name="pdp/index"/>
         <Stack.Screen name="plp/index" options={{
           title: "PLP"
         }}/>
-        <Stack.Screen name="pdp/index" options={{
-          title: "PDP"
-        }} />
+        <Stack.Screen name="cart/index" options={{
+          title: "cart"
+        }}/>
       </Stack>
     </Provider>
   );
