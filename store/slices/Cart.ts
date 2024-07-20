@@ -1,3 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit"
+
 interface IntialState {
     items: any[],
     totalQuantity: number,
@@ -9,4 +11,4 @@ const intialState: IntialState = {
     totalAmount: 0,
 }
 
-const CartSlice = 
+// const CartSlice = createSlice()
