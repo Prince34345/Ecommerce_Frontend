@@ -36,7 +36,7 @@ export default function FavProduct() {
        style={{margin: 10}} 
        numColumns={2} 
        data={arr} 
-       renderItem={(item) => <ProductCard key={item.item._id} product={item.item}/>}  
+       renderItem={(item) => <ProductCard key={item.item._id} product={item.item} />}  
        /> 
 }
 </View>

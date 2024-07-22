@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-
+import AddToCart from '@/components/Cart_Button/AddtoCart';
 const ProductDetailPage = () => {
   const params = useLocalSearchParams();
   const color = params?.Colour as string
@@ -25,10 +24,7 @@ const ProductDetailPage = () => {
        </View>
       </View>
       <View style={styles.optionsContainer}>
-        <TouchableOpacity style={styles.AddButton}>
-          <Text style={styles.AddButtonText}>Add to Cart</Text>
-          <Ionicons name='cart' color={'white'} size={30}/>
-        </TouchableOpacity>
+       <AddToCart isCart Product={params}/>
         <TouchableOpacity style={styles.PriceButton}>
           <Text style={styles.PriceButtonText}>${params?.UnitPrice}</Text>
         </TouchableOpacity>
@@ -50,7 +46,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderColor: 'black',
     height: 300,
-    elevation: 4
+    elevation: 3
   },
   image: {
     width: '100%',
@@ -95,20 +91,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     backgroundColor: '#f8f8f8',
     paddingVertical: 100
-  },
-  AddButton: {
-    backgroundColor: '#000000',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  AddButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   PriceButton: {
     backgroundColor: '#E0E0E0',

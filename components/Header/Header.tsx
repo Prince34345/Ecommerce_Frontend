@@ -3,9 +3,12 @@ import { useNavigation } from "expo-router";
 import { TextInput, View, StyleSheet, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Search from "../Search/Search";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 export default function HeaderLayout() {
     const navigate = useNavigation()
+    const data =  useSelector((state: RootState) => state.cart)
     function handleCart() {
         navigate.navigate("cart/index" as never)
     }
@@ -20,7 +23,7 @@ export default function HeaderLayout() {
                 <Ionicons name='cart' size={40}  onPress={handleCart} />
                 <View style={[styles.cartValue,{borderRadius: 5}]}>
                       <Text style={{textAlign: "center", fontWeight:"600" ,fontSize: 12 , color: "white"}}>
-                          48
+                          {data.totalQuantity}
                       </Text>
                 </View>
          </View>

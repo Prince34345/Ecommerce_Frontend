@@ -3,14 +3,15 @@ import categoryReducer from './slices/categorySlice';
 import favProductReducer from "./slices/favProductSlice"
 import ProductReducer from "./slices/productsSlice"
 import searchReducer from './slices/searchSlice';
-
+import cartReducer from './slices/Cart';
 const store = configureStore({
    
   reducer: {
     category: categoryReducer,
     favProduct: favProductReducer,
     allProduct:ProductReducer,
-    search: searchReducer
+    search: searchReducer,
+    cart: cartReducer
     // Add more reducers here
   },
 });

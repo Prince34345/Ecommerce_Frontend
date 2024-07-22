@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import { router } from 'expo-router';
+import AddToCart from '../Cart_Button/AddtoCart';
 
 const ProductCard = ({ product }: { product?: any }) => {
   const handlePDPredirect = () => {
@@ -21,9 +22,7 @@ const ProductCard = ({ product }: { product?: any }) => {
           <Text style={styles.description}>{product.SubCategory}</Text>
           <Text style={styles.price}>${product.UnitPrice.toFixed(2)}</Text>
         </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Buy Now</Text>
-        </TouchableOpacity>
+          <AddToCart isCart Product={product} isList/>
       </View>
     </Pressable>
   );
