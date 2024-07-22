@@ -22,6 +22,18 @@ const intialState: IntialState = {
     totalQuantity: 0,
     totalAmount: 0
 }
+
+function PriceAndQuantiyCounter(state: IntialState) {
+    const total = state.items.reduce((quantityAcc: number, quantityCrrValue) => {
+        return quantityAcc += quantityCrrValue.quantity
+    }, 0)
+    const totalPrice = state.items.reduce((priceAcc: number, item) => {
+        return priceAcc += (item.UnitPrice * item.quantity)
+    }, 0)
+    state.totalQuantity = total
+    state.totalAmount = totalPrice
+}
+
 export type SingleProduct = ProductInfo & { quantity: number }
 const CartSlice = createSlice({
     name: 'cart',
@@ -36,28 +48,14 @@ const CartSlice = createSlice({
                 state.items[index] = action.payload;
             }
 
-            const total = state.items.reduce((quantityAcc: number, quantityCrrValue) => {
-                return quantityAcc += quantityCrrValue.quantity
-            }, 0)
-            const totalPrice = state.items.reduce((priceAcc: number, item) => {
-                return priceAcc += (item.UnitPrice * item.quantity)
-            }, 0)
-            state.totalQuantity = total
-            state.totalAmount = totalPrice
+            PriceAndQuantiyCounter(state)
         },
         RemoveItemfromCart(state, action: PayloadAction<SingleProduct>) {
             const index = state.items.findIndex((item, index) => {
                 return item.ProductId == action.payload.ProductId
             })
             state.items.splice(index, 1)
-            const total = state.items.reduce((quantityAcc: number, quantityCrrValue) => {
-                return quantityAcc += quantityCrrValue.quantity
-            }, 0)
-            const totalPrice = state.items.reduce((priceAcc: number, item) => {
-                return priceAcc += (item.UnitPrice * item.quantity)
-            }, 0)
-            state.totalQuantity = total
-            state.totalAmount = totalPrice
+            PriceAndQuantiyCounter(state)
         },
 
     }

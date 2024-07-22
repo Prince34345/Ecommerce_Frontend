@@ -9,7 +9,11 @@ export default function Cart() {
   const data = useSelector((state: RootState) => state.cart)
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Your Cart</Text>
+      <View style={styles.header}>
+        <Text style={{fontSize: 24,fontWeight: 'bold',fontStyle: 'italic',color: 'black'}}>Your Cart</Text>
+        <Text style={{fontSize: 12,fontWeight: 'bold',color: 'black'}}>Total In Cart: {data.items.length}</Text>
+
+       </View>
       {data.items.length == 0 ? (<View style={styles.emptyCartContainer}>
         <Text style={styles.emptyCartText}>Cart Is Empty!</Text>
         <Ionicons name='sad-outline' color={'red'} size={30} />
@@ -22,7 +26,7 @@ export default function Cart() {
       }
 
       <View style={styles.footer}>
-        <TouchableOpacity disabled={data.items.length == 0} style={[styles.checkoutButton, {opacity: data.items.length == 0 ? .7: 1}]} >
+        <TouchableOpacity disabled={data.items.length == 0} style={[styles.checkoutButton, { opacity: data.items.length == 0 ? .7 : 1 }]} >
           <Text style={styles.checkoutButtonText}>Proceed To Checkout</Text>
         </TouchableOpacity>
       </View>
@@ -43,16 +47,15 @@ const styles = StyleSheet.create({
   },
   emptyCartText: {
     fontSize: 22,
-
     fontWeight: '600',
     color: 'black'
   },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-    color: 'black',
     marginBottom: 20,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row'
   },
   footer: {
     paddingVertical: 20,

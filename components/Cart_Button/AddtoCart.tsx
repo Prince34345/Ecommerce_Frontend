@@ -1,4 +1,4 @@
-import { RemoveItemfromCart, updateCart } from '@/store/slices/Cart'
+import { RemoveItemfromCart, updateCart } from '@/store/slices/CartSlice'
 import { RootState } from '@/store/store'
 import { Ionicons } from '@expo/vector-icons'
 import { useFocusEffect } from 'expo-router'

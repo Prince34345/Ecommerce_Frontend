@@ -2,7 +2,7 @@ import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { SingleProduct } from '@/store/slices/Cart';
+import { SingleProduct } from '@/store/slices/CartSlice';
 import AddToCart from '../Cart_Button/AddtoCart';
 
 export default function index() {
