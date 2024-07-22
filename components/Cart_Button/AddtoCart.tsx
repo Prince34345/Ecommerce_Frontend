@@ -46,6 +46,7 @@ const AddToCart = ({ isCart, isList, Product }: ButtonProps) => {
                 setisCarted(false)
                 setQty(isExistInCart.quantity)
             }else{
+                setisCarted(true)
                 setQty(qty)
             }
         }, [data])

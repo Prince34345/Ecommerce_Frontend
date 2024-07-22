@@ -2,35 +2,28 @@ import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet } from 'react
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { SingleProduct } from '@/store/slices/Cart';
-import AddToCart from '@/components/Cart_Button/AddtoCart';
-
+import { Ionicons } from '@expo/vector-icons';
+import CartList from '@/components/CartList'
+import OrderSummary from '@/components/OrderSummary';
 export default function Cart() {
   const data = useSelector((state: RootState) => state.cart)
-  const renderCartItem = ({item}: {item: SingleProduct}) => (
-    <View style={styles.cartItem}>
-      <Image source={{ uri: item.ImageURL }} style={styles.productImage} />
-      <View style={styles.productDetails}>
-        <Text style={styles.productName}>{item.ProductTitle}</Text>
-        <Text style={styles.productPrice}>{item.UnitPrice}</Text>
-      </View>
-      <TouchableOpacity style={styles.iconButton}>
-         <AddToCart Product={item} isCart={false} isList />
-      </TouchableOpacity>
-    </View>
-  );
-
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Your Cart</Text>
-      <FlatList
-        data={data.items}
-        renderItem={renderCartItem}
-        contentContainerStyle={styles.cartList}
-      />
+      {data.items.length == 0 ? (<View style={styles.emptyCartContainer}>
+        <Text style={styles.emptyCartText}>Cart Is Empty!</Text>
+        <Ionicons name='sad-outline' color={'red'} size={30} />
+      </View>
+      ) :
+        <>
+          <CartList />
+          <OrderSummary tax={2} shipping={5} subtotal={data.totalAmount} />
+        </>
+      }
+
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.checkoutButton}>
-          <Text style={styles.checkoutButtonText}>Checkout</Text>
+        <TouchableOpacity disabled={data.items.length == 0} style={[styles.checkoutButton, {opacity: data.items.length == 0 ? .7: 1}]} >
+          <Text style={styles.checkoutButtonText}>Proceed To Checkout</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -43,56 +36,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 40,
   },
+  emptyCartContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyCartText: {
+    fontSize: 22,
+
+    fontWeight: '600',
+    color: 'black'
+  },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'black', 
+    fontStyle: 'italic',
+    color: 'black',
     marginBottom: 20,
-  },
-  cartList: {
-    paddingBottom: 20,
-  },
-  cartItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f8f8f8', // Light gray background
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  productImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
-  },
-  productDetails: {
-    flex: 1,
-    marginLeft: 10,
-  },
-  productName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000000', // Black text
-  },
-  productPrice: {
-    fontSize: 14,
-    color: '#000000', // Black text
-  },
-  iconButton: {
-    padding: 10,
-  },
-  iconText: {
-    fontSize: 16,
-    color: '#000000', // Black text
   },
   footer: {
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderColor: '#f8f8f8', // Light gray border
+    borderColor: '#b1b2b2', // Light gray border
     alignItems: 'center',
   },
   checkoutButton: {
-    backgroundColor: '#FFFFFF', // White background
+    backgroundColor: 'black',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 30,
@@ -100,6 +69,6 @@ const styles = StyleSheet.create({
   checkoutButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000000', // Black text
+    color: '#f8f8f8',
   },
 });
