@@ -1,9 +1,16 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Pressable, GestureResponderEvent } from 'react-native';
 import { router } from 'expo-router';
 import AddToCart from '../Cart_Button/AddtoCart';
+import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from '@/context/auth';
+import { addItemToWishlist, removeItemfromWishlist } from '@/store/slices/wishlistSlice';
+import { useDispatch } from 'react-redux';
 
 const ProductCard = ({ product }: { product?: any }) => {
+  const [liked, setLiked] = useState(false)
+  const {user} = useAuth()
+  const dispatch  = useDispatch()
   const handlePDPredirect = () => {
     router.push({
       pathname: "/pdp" as any,
@@ -12,17 +19,26 @@ const ProductCard = ({ product }: { product?: any }) => {
       },
     });
   };
-
+  const handleWishlist = (e: GestureResponderEvent) => {
+      e.stopPropagation()
+      setLiked(!liked)
+      if (!liked) {
+         user && dispatch(addItemToWishlist(product))
+      }else {
+         user && dispatch(removeItemfromWishlist(product))
+      }
+  }
   return (
     <Pressable onPress={handlePDPredirect} style={styles.pressable}>
       <View style={styles.card}>
+        {user ? (liked ? <Ionicons name='heart' size={30} color={'red'} onPress={handleWishlist}  /> : <Ionicons name='heart-outline' size={30} onPress={handleWishlist} />) : null}
         <Image source={{ uri: product.ImageURL }} style={styles.image} />
         <View style={{ marginTop: 8 }}>
           <Text style={styles.title}>{product.ProductTitle}</Text>
           <Text style={styles.description}>{product.SubCategory}</Text>
           <Text style={styles.price}>${product.UnitPrice.toFixed(2)}</Text>
         </View>
-          <AddToCart isCart Product={product} isList/>
+         <AddToCart isCart Product={product} isList/>
       </View>
     </Pressable>
   );
@@ -39,7 +55,6 @@ const styles = StyleSheet.create({
     padding: 12,
     margin: 8,
     width: 160,
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 2 },
@@ -50,6 +65,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     resizeMode: 'cover',
+    alignSelf: 'center',
     marginBottom: 8,
     borderRadius: 10,
   },

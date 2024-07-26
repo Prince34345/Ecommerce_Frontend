@@ -4,6 +4,7 @@ import favProductReducer from "./slices/favProductSlice"
 import ProductReducer from "./slices/productsSlice"
 import searchReducer from './slices/searchSlice';
 import cartReducer from './slices/CartSlice';
+import WishlistReducer from './slices/wishlistSlice'
 const store = configureStore({
    
   reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
     favProduct: favProductReducer,
     allProduct:ProductReducer,
     search: searchReducer,
-    cart: cartReducer
+    cart: cartReducer,
+    wishlist:WishlistReducer
     // Add more reducers here
   },
 });

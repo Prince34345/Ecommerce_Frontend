@@ -57,8 +57,13 @@ const CartSlice = createSlice({
             state.items.splice(index, 1)
             PriceAndQuantiyCounter(state)
         },
+        RemoveAll(state) {
+            state.items.splice(0, state.items.length)
+            state.totalQuantity = 0
+            state.totalQuantity = 0
+        }
 
     }
 })
-export const { updateCart, RemoveItemfromCart } = CartSlice.actions
+export const { updateCart, RemoveItemfromCart, RemoveAll } = CartSlice.actions
 export default CartSlice.reducer

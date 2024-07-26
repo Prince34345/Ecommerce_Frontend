@@ -6,6 +6,7 @@ import { fetchAllProduct } from '@/store/slices/productsSlice';
 import ProductCard from '@/components/Card';
 import { fetchSearchProduct, updatePage } from '@/store/slices/searchSlice';
 import { Ionicons } from '@expo/vector-icons';
+import HeaderLayout from '@/components/Header/Header';
 
 export default function Page() {
   const dispatch = useDispatch<AppDispatch>();
@@ -46,23 +47,23 @@ export default function Page() {
   };
 
   return (
+    <><HeaderLayout />
     <View style={{ flex: 1 }}>
-      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-      <Pressable style={[styles.button, {backgroundColor: '#d8d8d8',borderTopEndRadius: 40,borderBottomLeftRadius:40}]}><Text style={{fontSize: 20, letterSpacing: 1,textTransform: 'uppercase'}}>Sort</Text><View><Ionicons name='shuffle-sharp' size={30}    /></View></Pressable>
-      <Pressable style={[styles.button, {backgroundColor: 'black',borderBottomEndRadius: 40,borderTopStartRadius:40}]}><Text style={{fontSize: 20, letterSpacing: 1,textTransform: 'uppercase', color:'white'}}>Filter</Text><View><Ionicons name='funnel-sharp'  size={30} color={'white'} /></View></Pressable>
+      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+        <Pressable style={[styles.button, { backgroundColor: '#d8d8d8', borderTopEndRadius: 40, borderBottomLeftRadius: 40 }]}><Text style={{ fontSize: 20, letterSpacing: 1, textTransform: 'uppercase' }}>Sort</Text><View><Ionicons name='shuffle-sharp' size={30} /></View></Pressable>
+        <Pressable style={[styles.button, { backgroundColor: 'black', borderBottomEndRadius: 40, borderTopStartRadius: 40 }]}><Text style={{ fontSize: 20, letterSpacing: 1, textTransform: 'uppercase', color: 'white' }}>Filter</Text><View><Ionicons name='funnel-sharp' size={30} color={'white'} /></View></Pressable>
       </View>
       <FlatList
         nestedScrollEnabled={true}
         style={{ margin: 10 }}
         numColumns={2}
         data={products}
-        renderItem={({ item }) => <ProductCard product={item}/>}
+        renderItem={({ item }) => <ProductCard product={item} />}
         keyExtractor={(item, index) => `${item.key}-${index}`}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
-        ListFooterComponent={renderFooter}
-      />
-    </View>
+        ListFooterComponent={renderFooter} />
+    </View></>
   );
 }
 

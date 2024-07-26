@@ -47,7 +47,7 @@ const AddToCart = ({ isCart, isList, Product }: ButtonProps) => {
                 setQty(isExistInCart.quantity)
             }else{
                 setisCarted(true)
-                setQty(qty)
+                setQty(1)
             }
         }, [data])
     );

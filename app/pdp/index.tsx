@@ -2,34 +2,39 @@ import React from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import AddToCart from '@/components/Cart_Button/AddtoCart';
+import HeaderLayout from '@/components/Header/Header';
+import { Ionicons } from '@expo/vector-icons';
 const ProductDetailPage = () => {
   const params = useLocalSearchParams();
   const color = params?.Colour as string
   return (
+    <>
+   <HeaderLayout />
+   <Ionicons name='heart'/>
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: params?.ImageURL as string }} style={styles.image} />
       </View>
-      <Text style={styles.price}>{params?.Gender}</Text> 
-      <Text style={styles.title}>{params?.ProductTitle}</Text>        
+      <Text style={styles.price}>{params?.Gender}</Text>
+      <Text style={styles.title}>{params?.ProductTitle}</Text>
 
       <View style={styles.infoContainer}>
         <View>
-        <Text style={styles.PriceButtonText}>{params?.Category}</Text>
-        <Text style={styles.subCategory}>{params?.SubCategory}</Text>
-        <Text style={styles.subCategory}>{params?.Usage}</Text>
-       </View>
-       <View>
-           <View style={{backgroundColor: color.toLowerCase(), height: 20, width: 20, borderColor: `${color.toLowerCase() == 'white' ? 'black': 'white'}`, borderWidth: 2}}></View>
-       </View>
+          <Text style={styles.PriceButtonText}>{params?.Category}</Text>
+          <Text style={styles.subCategory}>{params?.SubCategory}</Text>
+          <Text style={styles.subCategory}>{params?.Usage}</Text>
+        </View>
+        <View>
+          <View style={{ backgroundColor: color.toLowerCase(), height: 20, width: 20, borderColor: `${color.toLowerCase() == 'white' ? 'black' : 'white'}`, borderWidth: 2 }}></View>
+        </View>
       </View>
       <View style={styles.optionsContainer}>
-       <AddToCart isCart Product={params}/>
+        <AddToCart isCart Product={params} />
         <TouchableOpacity style={styles.PriceButton}>
           <Text style={styles.PriceButtonText}>${params?.UnitPrice}</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </ScrollView></>
   );
 };
 

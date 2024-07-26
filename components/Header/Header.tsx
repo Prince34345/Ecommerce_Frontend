@@ -1,16 +1,18 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
-import { TextInput, View, StyleSheet, Text } from "react-native";
+import { useRouter } from "expo-router";
+import { View, StyleSheet, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Search from "../Search/Search";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { useNavigation } from "@react-navigation/native";
 
 export default function HeaderLayout() {
-    const navigate = useNavigation()
+    const router = useRouter()
+    const navigator = useNavigation()
     const data =  useSelector((state: RootState) => state.cart)
     function handleCart() {
-        navigate.navigate("cart/index" as never)
+        navigator.navigate("cart/index" as never)
     }
     
     const { top } = useSafeAreaInsets()
@@ -18,14 +20,15 @@ export default function HeaderLayout() {
     
     return (
          <View style={[styles.view, { marginTop }]}>
-                <Ionicons name='menu' size={40} />
+                <Ionicons name='menu' size={40} onPress={() => router.push("/Settings")}/>
                 <Search/>
                 <Ionicons name='cart' size={40}  onPress={handleCart} />
-                <View style={[styles.cartValue,{borderRadius: 5}]}>
+               {data.totalQuantity > 0 ? <View style={[styles.cartValue,{borderRadius: 5}]}>
                       <Text style={{textAlign: "center", fontWeight:"600" ,fontSize: 12 , color: "white"}}>
                           {data.totalQuantity}
                       </Text>
-                </View>
+                </View> : <></>
+               } 
          </View>
     )
 } 

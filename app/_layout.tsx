@@ -1,34 +1,30 @@
-import store from '@/store/store';
+import React from 'react';
 import { Stack } from 'expo-router';
 import { Provider } from 'react-redux';
-import Header from '../components/Header/Header'
-import { StatusBar } from 'react-native';
+import store from '@/store/store';
 import { LogBox } from 'react-native';
-import { useEffect } from 'react';
+import { AuthProvider } from '@/context/auth';
 
-export default function RootLayout() {
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-}, [])
+export default function HomeLayout() {
+  LogBox.ignoreAllLogs(); 
   return (
-    <Provider store={store}>
-      <StatusBar barStyle="light-content" />
-      <Header/>
-      <Stack screenOptions={{
-        headerShown: false
-       }}
-       >
-        <Stack.Screen name="index" options={{
-          title: "Home"
-        }} />
-        <Stack.Screen name="pdp/index"/>
-        <Stack.Screen name="plp/index" options={{
-          title: "PLP"
-        }}/>
-        <Stack.Screen name="cart/index" options={{
-          title: "cart"
-        }}/>
-      </Stack>
-    </Provider>
+    <AuthProvider>
+      <Provider store={store}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="Home/index" />
+          <Stack.Screen name="Settings/index" options={{
+            animation: "slide_from_left",
+            presentation: "transparentModal",
+          }}/>
+          <Stack.Screen name="pdp/index" />
+          <Stack.Screen name="cart/index" />
+          <Stack.Screen name="plp/index" options={{ title: 'PLP' }} />
+          <Stack.Screen name="checkout/index" options={{ title: 'Checkout' }} />
+          <Stack.Screen name="Login/index" />
+          <Stack.Screen name="Register/index" />
+        </Stack>
+      </Provider>
+    </AuthProvider>
   );
 }
