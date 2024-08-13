@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import HeroBanner from '../../components/HeroBanner'
 import Categories from '@/components/Categories'
 import { SafeAreaView, ScrollView } from 'react-native'

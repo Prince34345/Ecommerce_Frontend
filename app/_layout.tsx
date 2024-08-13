@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
-import { Provider } from 'react-redux';
-import store from '@/store/store';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import store, { AppDispatch, RootState } from '@/store/store';
 import { LogBox } from 'react-native';
 import { AuthProvider } from '@/context/auth';
 

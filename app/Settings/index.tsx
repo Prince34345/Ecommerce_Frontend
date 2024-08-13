@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity,  Image } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { router } from 'expo-router';
@@ -9,10 +9,16 @@ export default function App() {
   const navigation = useNavigation();
   const { user, signOut } = useAuth();
 
-  function handleLoginLogout(){
+  function handleLoginLogoutforRegister(forRegister?: boolean){
     console.log("auth", user)
      if(!user){
-      router.push("/Login/")
+      router.replace("/Login/");
+      
+     }else {
+      signOut()
+     }
+     if (!user && forRegister) {
+        router.replace('/Register/')
      }else {
       signOut()
      }
@@ -23,12 +29,18 @@ export default function App() {
         <Ionicons name='close' onPress={() => navigation.goBack()} size={40} style={{ margin: 20 }} />
       </View>
       <View style={styles.header}>
-       { user ? <Image
+       { user ? <><Image
           source={{ uri: `https://ui-avatars.com/api/?name=${user?.name}+&background=random`}} // Replace with your logo or avatar
-          style={styles.avatar}
-        /> : <Ionicons name='person-add' size={40}  /> }
-        <Text style={styles.username}>{user?.name || 'guest'}</Text>
-        <Text style={styles.email}>{user?.email}</Text>
+          style={styles.avatar}/>
+        <Text style={styles.username}>{user?.name}</Text>
+        <Text style={styles.email}>{user?.email}</Text></>  :  <>
+         <Ionicons name='person-add' size={40} color={'#9e9e9e'}/>
+         <View style={{display: 'flex', flexDirection: 'row', padding: 20}}>
+         <TouchableOpacity style={[styles.authbutton]} onPress={() => handleLoginLogoutforRegister(false)} ><Text style={{color:'white'}} >Sign In</Text></TouchableOpacity>
+         <TouchableOpacity onPress={() => handleLoginLogoutforRegister(true) } style={[styles.authbutton, {backgroundColor: '#f8f8f8', borderWidth: 1}]} ><Text style={{color:'black'}}>Sign Up</Text></TouchableOpacity>
+         </View>
+        </>
+       }
       </View>
 
       <View style={styles.drawerItems}>
@@ -57,14 +69,22 @@ export default function App() {
           <Ionicons name="heart" size={24} color="black" />
           <Text style={styles.drawerText}>Wishlist</Text>
         </TouchableOpacity>
+       <TouchableOpacity
+          style={[styles.drawerItem, {opacity: !user ? .4 : 1 }]}
+          disabled={!user ? true: false}
+        >
+          <Ionicons name='person-remove' size={24} color="black" />
+          <Text style={styles.drawerText}>Delete Account</Text>
+        </TouchableOpacity>
       </View>
+      
 
         <TouchableOpacity
           style={styles.footer}
-          onPress={handleLoginLogout}
+          onPress={() => handleLoginLogoutforRegister()}
         >
-          <Ionicons name="log-in-outline" size={40} color="black" />
-          <Text style={styles.footerText}>{!user ? 'Login' : 'Logout'}</Text>
+         {user ? <Ionicons name={"log-in-outline"} size={40} color="black" /> : null}
+          <Text style={styles.footerText}>{!user ? '' : 'Logout'}</Text>
         </TouchableOpacity>
     </View>
   );
@@ -130,4 +150,11 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 20,
   },
+  authbutton: {
+     margin: 10,
+     backgroundColor: 'black',
+     padding: 10,
+     borderTopRightRadius: 10,
+     borderBottomLeftRadius: 10
+  }
 });

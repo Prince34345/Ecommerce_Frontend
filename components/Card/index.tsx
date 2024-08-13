@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Pressable, GestureResponderEvent } from 'react-native';
 import { router } from 'expo-router';
 import AddToCart from '../Cart_Button/AddtoCart';
-import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@/context/auth';
-import { addItemToWishlist, removeItemfromWishlist } from '@/store/slices/wishlistSlice';
+import Liked from '../liked';
+import { AppDispatch } from '@/store/store';
 import { useDispatch } from 'react-redux';
+import { postwishlistThunk } from '@/store/slices/wishlistSlice';
 
 const ProductCard = ({ product }: { product?: any }) => {
-  const [liked, setLiked] = useState(false)
-  const {user} = useAuth()
-  const dispatch  = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
   const handlePDPredirect = () => {
     router.push({
       pathname: "/pdp" as any,
@@ -19,19 +17,10 @@ const ProductCard = ({ product }: { product?: any }) => {
       },
     });
   };
-  const handleWishlist = (e: GestureResponderEvent) => {
-      e.stopPropagation()
-      setLiked(!liked)
-      if (!liked) {
-         user && dispatch(addItemToWishlist(product))
-      }else {
-         user && dispatch(removeItemfromWishlist(product))
-      }
-  }
   return (
     <Pressable onPress={handlePDPredirect} style={styles.pressable}>
       <View style={styles.card}>
-        {user ? (liked ? <Ionicons name='heart' size={30} color={'red'} onPress={handleWishlist}  /> : <Ionicons name='heart-outline' size={30} onPress={handleWishlist} />) : null}
+       <Liked product={product} />
         <Image source={{ uri: product.ImageURL }} style={styles.image} />
         <View style={{ marginTop: 8 }}>
           <Text style={styles.title}>{product.ProductTitle}</Text>

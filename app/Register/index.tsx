@@ -9,11 +9,15 @@ import {
 import { useAuth } from "@/context/auth";
 import { Stack, useRouter } from "expo-router";
 import { useRef } from "react";
-import { Ionicons } from "@expo/vector-icons";
-
+import { useDispatch, UseDispatch } from "react-redux";
+import { postUserThunk } from "@/store/slices/userSlice";
+import { UnknownAction } from "redux";
+import { AppDispatch } from "@/store/store";
 export default function SignUp() {
     const { signUp } = useAuth();
     const router = useRouter();
+    
+    const dispatch = useDispatch<AppDispatch>()
 
     const emailRef = useRef("");
     const passwordRef = useRef("");
@@ -67,6 +71,7 @@ export default function SignUp() {
                             passwordRef.current,
                             userNameRef.current
                         );
+                        await dispatch(postUserThunk(data?.$id as string))
                         if (data) {
                             router.push("/");
                         } else {

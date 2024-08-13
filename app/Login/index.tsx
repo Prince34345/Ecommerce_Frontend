@@ -9,11 +9,14 @@ import {
 import { useAuth } from "@/context/auth";
 import { Stack, useRouter } from "expo-router";
 import { useRef } from "react";
+import { postUserThunk } from "@/store/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store/store";
 
 export default function SignIn() {
     const { signIn } = useAuth();
     const router = useRouter();
-
+    const dispatch = useDispatch<AppDispatch>()
     const emailRef = useRef("");
     const passwordRef = useRef("");
 
@@ -54,6 +57,7 @@ export default function SignIn() {
                             emailRef.current,
                             passwordRef.current
                         );
+                        await dispatch(postUserThunk(data?.$id as string))
                         if (data) {
                             router.replace("/");
                         } else {

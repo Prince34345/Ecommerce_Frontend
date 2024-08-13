@@ -1,7 +1,6 @@
-import { useRootNavigation, useRouter, useSegments } from "expo-router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { appwrite } from "../lib/appwrite-service";
-import { Models, OAuthProvider } from "appwrite";
+import { Models } from "appwrite";
 
 interface SignInResponse {
   data: Models.User<Models.Preferences> | undefined;
@@ -13,6 +12,10 @@ interface SignOutResponse {
   data: {} | undefined;
 }
 
+interface DeleteAccount {
+  data: {} | undefined;
+  error: Error | undefined | any
+}
 
 interface AuthContextValue {
   signIn: (e: string, p: string) => Promise<SignInResponse>;

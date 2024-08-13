@@ -5,17 +5,17 @@ import ProductReducer from "./slices/productsSlice"
 import searchReducer from './slices/searchSlice';
 import cartReducer from './slices/CartSlice';
 import WishlistReducer from './slices/wishlistSlice'
+import userReducer from './slices/userSlice';
 const store = configureStore({
-   
   reducer: {
     category: categoryReducer,
     favProduct: favProductReducer,
     allProduct:ProductReducer,
     search: searchReducer,
     cart: cartReducer,
-    wishlist:WishlistReducer
-    // Add more reducers here
-  },
+    wishlist:WishlistReducer,
+    user: userReducer
+   }
 });
 
 export type RootState = ReturnType<typeof store.getState>;

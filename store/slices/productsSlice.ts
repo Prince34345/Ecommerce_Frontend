@@ -45,4 +45,4 @@ const getAllProduct = createSlice({
   },
 });
 
-export default getAllProduct.reducer // Slice reducer that contains extraReducer
+export default getAllProduct.reducer;
