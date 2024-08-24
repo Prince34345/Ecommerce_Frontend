@@ -39,8 +39,7 @@ export const getwishlistThunk = createAsyncThunk('getwishlist', async () => {
             'Content-Type': 'application/json'
         },
     })
-    console.log("response")
-    return response.data
+    return response.data?.response?.wishlist
 })
 
 export const postwishlistThunk = createAsyncThunk('postWishlist', async (Products: ProductInfo[]) => {
@@ -55,7 +54,7 @@ export const postwishlistThunk = createAsyncThunk('postWishlist', async (Product
             'Content-Type': 'application/json'
         }
     })
-    return response.data
+    return response.data?.response
 })
 
 const WishlistSlice = createSlice({
@@ -63,30 +62,33 @@ const WishlistSlice = createSlice({
     initialState: intialState,
     reducers: {
         addItemToWishlist(state, action: PayloadAction<ProductInfo>) {
-            const index = state.items.findIndex(item => String(item.ProductId) === String(action.payload.ProductId));
-            console.log("index", index, state, action.payload)
-            if (!index || !state.items.length) {
-                state?.items?.push(action?.payload);
+            const index = state.items?.findIndex(item => String(item.ProductId) === String(action.payload.ProductId));
+            if (index === -1 || index === undefined) {
+                if(state.items == undefined) {
+                    state.items = []
+                }
+                const previousState = [...state.items, action.payload]
+                state.items = previousState
             } else {
                 state.items[index] = action?.payload;
             }
         },
         removeItemfromWishlist(state, action: PayloadAction<ProductInfo>) {
-            const index = state.items.findIndex((item) => {
+            const index = state.items?.findIndex((item) => {
                 return item.ProductId == action.payload.ProductId
             })
-            state.items.splice(index, 1)
+            state.items?.splice(index, 1)
         },
         removeAllfromWishlist(state) {
-            state.items.splice(0, state.items.length)
+            state.items = [];
         }
     },
     extraReducers: (builder) => {
         builder.addCase(getwishlistThunk.pending, (state) => { state.loading = true; })
-               .addCase(getwishlistThunk.fulfilled, (state, action) => { state.loading = false; state.items = action.payload.response.wishlist })
+               .addCase(getwishlistThunk.fulfilled, (state, action) => { state.loading = false; state.items = action.payload.response; })
                .addCase(getwishlistThunk.rejected, (state, action) => { state.loading = false; state.error = action.error.message! })
         builder.addCase(postwishlistThunk.pending, (state) => { state.loading = true })
-               .addCase(postwishlistThunk.fulfilled, (state, action) => { state.loading = false; state.items = action.payload?.response; })
+               .addCase(postwishlistThunk.fulfilled, (state, action) => { state.loading = false; })
                .addCase(postwishlistThunk.rejected, (state, action) => { state.loading = false; state.error = action.error.message!})
     }
 })

@@ -21,7 +21,7 @@ interface AuthContextValue {
   signIn: (e: string, p: string) => Promise<SignInResponse>;
   signUp: (e: string, p: string, n: string) => Promise<SignInResponse>;
   signOut: () => Promise<SignOutResponse>;
-  user: Models.User<Models.Preferences> | null;
+  authUser: Models.User<Models.Preferences> | null;
   authInitialized: boolean;
 }
 
@@ -35,32 +35,28 @@ const AuthContext = React.createContext<AuthContextValue | undefined>(
 
 export function AuthProvider(props: ProviderProps) {
 
-  const [user, setAuth] =
+  const [authUser, setAuth] =
     React.useState<Models.User<Models.Preferences> | null>(null);
   const [authInitialized, setAuthInitialized] = React.useState<boolean>(false);
-
+  
   useEffect(() => {
     (async () => {
       try {
         const user = await appwrite.account.get();
-        console.log(user);
-        setAuth(user);
+        const authUser = user
+        setAuth(authUser);
+        setAuthInitialized(true);
       } catch (error) {
         setAuth(null);
       }
-
-      setAuthInitialized(true);
-      console.log("initialize ", user);
     })();
   }, []);
 
   const logout = async (): Promise<SignOutResponse> => {
     try {
       const response = await appwrite.account.deleteSession("current");
-      console.log("response from logout", response)
       return { error: undefined, data: response };
     } catch (error) {
-      console.log("catch response from logout", error)
       return { error, data: undefined };
     } finally {
       setAuth(null);
@@ -72,7 +68,6 @@ export function AuthProvider(props: ProviderProps) {
     password: string
   ): Promise<SignInResponse> => {
     try {
-      console.log(email, password);
       const response = await appwrite.account.createEmailPasswordSession(
         email,
         password
@@ -93,8 +88,6 @@ export function AuthProvider(props: ProviderProps) {
     username: string
   ): Promise<SignInResponse> => {
     try {
-      console.log(email, password, username);
-
       await appwrite.account.create(
         appwrite.ID.unique(),
         email,
@@ -118,7 +111,7 @@ export function AuthProvider(props: ProviderProps) {
         signIn: login,
         signOut: logout,
         signUp: createAcount,
-        user,
+        authUser,
         authInitialized,
       }}
     >

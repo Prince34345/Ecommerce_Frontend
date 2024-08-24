@@ -35,11 +35,9 @@ export const getUserThunk = createAsyncThunk('getUser', async () => {
             'Content-Type': 'application/json'
         },
     })
-    console.log("data from thunk", response.data)
     return response.data
 })
 export const postUserThunk = createAsyncThunk('postUser', async (id: string) => {
-    console.log("post thunk called", id)
     const response = await axios.post(`${process.env.EXPO_PUBLIC_URL}/user/${id}`, {} ,{
         method: 'POST',
         headers: {
@@ -47,7 +45,6 @@ export const postUserThunk = createAsyncThunk('postUser', async (id: string) => 
             'Content-Type': 'application/json'
         }
     })
-    console.log("data from post thunk", response.data)
     return response.data
 })
 const UserSlice = createSlice({

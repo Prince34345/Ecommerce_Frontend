@@ -14,7 +14,6 @@ export default function Categories() {
   }, [dispatch]);
 
   function handlePLP() {
-    console.log("router", router)
     router.push({
       pathname: "/plp" as any,
     })

@@ -12,7 +12,6 @@ const Search: React.FC = () => {
   const dispatch = useDispatch();
 
   const handleSearch = (text: string) => {
-    console.log("searchTerm", text);
     setSearchTerm(text)
     dispatch(updatePage(1))
 

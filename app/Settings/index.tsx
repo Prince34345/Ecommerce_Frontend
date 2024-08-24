@@ -7,17 +7,16 @@ import { useAuth } from '@/context/auth';
 
 export default function App() {
   const navigation = useNavigation();
-  const { user, signOut } = useAuth();
+  const { authUser, signOut } = useAuth();
 
   function handleLoginLogoutforRegister(forRegister?: boolean){
-    console.log("auth", user)
-     if(!user){
+     if(!authUser){
       router.replace("/Login/");
       
      }else {
       signOut()
      }
-     if (!user && forRegister) {
+     if (!authUser && forRegister) {
         router.replace('/Register/')
      }else {
       signOut()
@@ -29,11 +28,11 @@ export default function App() {
         <Ionicons name='close' onPress={() => navigation.goBack()} size={40} style={{ margin: 20 }} />
       </View>
       <View style={styles.header}>
-       { user ? <><Image
-          source={{ uri: `https://ui-avatars.com/api/?name=${user?.name}+&background=random`}} // Replace with your logo or avatar
+       { authUser ? <><Image
+          source={{ uri: `https://ui-avatars.com/api/?name=${authUser?.name}+&background=random`}} // Replace with your logo or avatar
           style={styles.avatar}/>
-        <Text style={styles.username}>{user?.name}</Text>
-        <Text style={styles.email}>{user?.email}</Text></>  :  <>
+        <Text style={styles.username}>{authUser?.name}</Text>
+        <Text style={styles.email}>{authUser?.email}</Text></>  :  <>
          <Ionicons name='person-add' size={40} color={'#9e9e9e'}/>
          <View style={{display: 'flex', flexDirection: 'row', padding: 20}}>
          <TouchableOpacity style={[styles.authbutton]} onPress={() => handleLoginLogoutforRegister(false)} ><Text style={{color:'white'}} >Sign In</Text></TouchableOpacity>
@@ -70,8 +69,8 @@ export default function App() {
           <Text style={styles.drawerText}>Wishlist</Text>
         </TouchableOpacity>
        <TouchableOpacity
-          style={[styles.drawerItem, {opacity: !user ? .4 : 1 }]}
-          disabled={!user ? true: false}
+          style={[styles.drawerItem, {opacity: !authUser ? .4 : 1 }]}
+          disabled={!authUser ? true: false}
         >
           <Ionicons name='person-remove' size={24} color="black" />
           <Text style={styles.drawerText}>Delete Account</Text>
@@ -83,8 +82,8 @@ export default function App() {
           style={styles.footer}
           onPress={() => handleLoginLogoutforRegister()}
         >
-         {user ? <Ionicons name={"log-in-outline"} size={40} color="black" /> : null}
-          <Text style={styles.footerText}>{!user ? '' : 'Logout'}</Text>
+         {authUser ? <Ionicons name={"log-in-outline"} size={40} color="black" /> : null}
+          <Text style={styles.footerText}>{!authUser ? '' : 'Logout'}</Text>
         </TouchableOpacity>
     </View>
   );

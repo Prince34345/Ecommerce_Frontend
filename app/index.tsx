@@ -1,10 +1,11 @@
+import { addItemToWishlist, getwishlistThunk } from '@/store/slices/wishlistSlice';
+import { AppDispatch } from '@/store/store';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, SafeAreaView, Text, StyleSheet, ImageBackground } from 'react-native';
 
 export default function Index() {
   const router = useRouter();
-
   return (
     <ImageBackground 
       source={{ uri: 'https://example.com/your-background-image.jpg' }} 
