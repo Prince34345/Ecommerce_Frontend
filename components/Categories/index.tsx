@@ -4,6 +4,7 @@ import { fetchCategory } from '@/store/slices/categorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import { router } from 'expo-router';
+import Skeleton from "react-loading-skeleton";
 
 export default function Categories() {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,15 +21,17 @@ export default function Categories() {
   }
 
   return (
-    <View style={styles.container}>
+   <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Shop by Categories</Text>
-        <TouchableOpacity  onPress={handlePLP}>
+        <TouchableOpacity onPress={handlePLP}>
           <Text style={styles.viewAll}>View All</Text>
         </TouchableOpacity>
       </View>
       {loading ? (
-        <ActivityIndicator style={styles.loader} size="large" color="#1f1f1f" />
+        <ActivityIndicator color={"black"} size={50}>
+ 
+        </ActivityIndicator>
       ) : (
         <ScrollView horizontal nestedScrollEnabled showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollView}>
           {data.map((item, index) => (

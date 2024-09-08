@@ -1,27 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Button, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import OrderSummary from '@/components/OrderSummary'; 
 import HeaderLayout from '@/components/Header/Header';
+import ModalBox from '@/components/modal';
+import AddressForm from '@/components/addressform';
+import { addAddress, postaddressThunk } from '@/store/slices/addressSlice';
 
 
 function CheckoutPage ()  {
-  const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
-  const data = useSelector((state: RootState) => state.cart)
-
-
-
+  const data = useSelector((state: RootState) => state.cart);
+  const {items} = useSelector((state: RootState) => state.address)
+  const dispatch  = useDispatch();
+  const [isAdd, setIsAdd] = useState(false);
+  useEffect(() => {
+    let timer: NodeJS.Timeout | undefined;
+      timer = setTimeout(() => {
+        dispatch(postaddressThunk(items) as any);
+      }, 500)
+      return () => {
+         if (timer) {
+             clearTimeout(timer)
+         }
+      } 
+      
+  }, [items, dispatch, addAddress])
   return (
     <><HeaderLayout />
     <ScrollView style={styles.container}>
       <Text style={styles.header}>Checkout</Text>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Shipping Address</Text>
-        <Pressable>
-          <Text></Text>
+        <Pressable onPress={() => setIsAdd(true)} style={{width: "100%", backgroundColor: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' ,height: 60, borderRadius: 40}}>
+            <Text style={styles.placeOrderButtonText}>Add Address</Text>
         </Pressable>
       </View>
       <View style={styles.section}>
@@ -50,7 +64,12 @@ function CheckoutPage ()  {
           <Text style={styles.placeOrderButtonText}>Place Order</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView></>
+    </ScrollView>
+    
+    <ModalBox visible={isAdd} onClose={() => setIsAdd(false)} noButton>
+         <AddressForm onOpen={setIsAdd} />
+    </ModalBox>
+    </>
   );
 };
 

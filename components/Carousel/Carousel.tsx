@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { Dimensions,  Image,  View, Text, StyleSheet, FlatList, Animated, useWindowDimensions} from 'react-native'
-import PagerView from 'react-native-pager-view'
 
 const CarouselView = () => {
   const scrollX = useRef(new Animated.Value(0)).current

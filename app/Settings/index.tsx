@@ -63,6 +63,13 @@ export default function App() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.drawerItem}
+          onPress={() => router.push('/address/')}
+        >
+          <Ionicons name='location' size={24} color="black" />
+          <Text style={styles.drawerText}>Addresses</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.drawerItem}
           onPress={() => router.push('/wishlist/')}
         >
           <Ionicons name="heart" size={24} color="black" />

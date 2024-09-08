@@ -6,6 +6,7 @@ import searchReducer from './slices/searchSlice';
 import cartReducer from './slices/CartSlice';
 import WishlistReducer from './slices/wishlistSlice'
 import userReducer from './slices/userSlice';
+import addressReducer from './slices/addressSlice';
 const store = configureStore({
   reducer: {
     category: categoryReducer,
@@ -14,7 +15,8 @@ const store = configureStore({
     search: searchReducer,
     cart: cartReducer,
     wishlist:WishlistReducer,
-    user: userReducer
+    user: userReducer,
+    address: addressReducer
    }
 });
 

@@ -29,13 +29,6 @@ const WishlistScreen: React.FC = () => {
     </View>
   );
 
-  const renderFooter = () => {
-    return (
-      <View style={{ marginTop: 10, alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#1f1f1f" />
-      </View>
-    );
-  };
 
   const handleWishlistRemove = (item: any) => {
     setIsLiked(false)
@@ -53,13 +46,12 @@ const WishlistScreen: React.FC = () => {
         if (timer) clearTimeout(timer);
     };
 }, [items, isLiked, dispatch]);
-
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Wishlist</Text>
       {!authUser ? (
         <NotAuthenticated />
-      ) : items?.length === 0 ? (
+      ) : !items || items?.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>Your wishlist is empty!</Text>
           <Ionicons name='sad-outline' size={30} color={"#888"} />
@@ -71,8 +63,6 @@ const WishlistScreen: React.FC = () => {
           data={items}
           renderItem={renderItem}
           keyExtractor={(item, index) => `${item.ProductId}-${index}`}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={renderFooter}
         />
       )}
     </View>
@@ -126,7 +116,3 @@ const styles = StyleSheet.create({
 });
 
 export default WishlistScreen;
-function dispatch(arg0: any): void {
-  throw new Error('Function not implemented.');
-}
-
